@@ -27,7 +27,7 @@ print("*Bienvenido al sistema de reservacion de eventos*")
 print("*"*51)
 
 while True:
-    print("\n****Menu**")
+    print("\n*******Menu*******")
     print("1.Registrar evento")
     print("2.Editar nombre del evento")
     print("3.Consultar reservaciones")
@@ -102,7 +102,7 @@ while True:
                                 salas_turnos_disponibles[fecha_elegida] = {}
                             salas_turnos_disponibles[fecha_elegida][nombre_sala] = [capacidad_sala, turnos_disponibles]
 
-                        print("Salas disponibles para la fecha seleccionada")
+                        print("*Salas disponibles para la fecha seleccionada*")
                         for sala_nombre, info in salas_turnos_disponibles[fecha_elegida].items():
                             print(f"Sala: {sala_nombre}, Capacidad: {info[0]}, Turnos disponibles: {', '.join(info[1])}")
                         print("*"*55)
@@ -181,7 +181,7 @@ while True:
                 except ValueError:
                     print("Favor de digitar un numero valido\n")
                     continue
-
+        
         case 2:
             print("\nEditar nombre del evento")
             while True:
@@ -237,8 +237,8 @@ while True:
                             print("El nombre del evento no puede estar vacio\n")
                             continue
                         if nuevo_nombre_evento.isspace():
-                                print("El nombre del evento no puede consistir solo en espacios en blanco\n")
-                                continue
+                            print("El nombre del evento no puede consistir solo en espacios en blanco\n")
+                            continue
                         
                         indice_evento = folios_eventos.index(folio_evento_elegido)
                         eventos["evento"][indice_evento] = nuevo_nombre_evento.upper()
@@ -250,13 +250,13 @@ while True:
                 
         case 3:
             while True:
-                    fecha_consulta = input("Ingrese la fecha a consultar (dd/mm/aaaa): ")
-                    try:
-                        fecha_consulta_dt = dt.datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
-                        break
-                    except ValueError:
-                        print("Favor de digitar una fecha valida\n")
-                    continue
+                fecha_consulta = input("Ingrese la fecha a consultar (dd/mm/aaaa): ")
+                try:
+                    fecha_consulta_dt = dt.datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
+                    break
+                except ValueError:
+                    print("Favor de digitar una fecha valida\n")
+                continue
     
             eventos_df = pd.DataFrame(eventos)
             eventos_df.index = folios_eventos
@@ -276,16 +276,16 @@ while True:
             filas_tabla = []
 
             for folio, evento_data in eventos_df[filtro_fecha_consulta].iterrows():
-                        sala_id = evento_data["sala"]
-                        cliente_id = evento_data["cliente"]
-                        nombre_evento = evento_data["evento"]
-                        turno = evento_data["turno"]
+                sala_id = evento_data["sala"]
+                cliente_id = evento_data["cliente"]
+                nombre_evento = evento_data["evento"]
+                turno = evento_data["turno"]
 
-                        nombre_sala = salas[sala_id][0]
-                        nombre_cliente = df_clientes.loc[cliente_id, "nombres"]
-                        apellido_cliente = df_clientes.loc[cliente_id, "apellidos"]
+                nombre_sala = salas[sala_id][0]
+                nombre_cliente = df_clientes.loc[cliente_id, "nombres"]
+                apellido_cliente = df_clientes.loc[cliente_id, "apellidos"]
 
-                        filas_tabla.append([nombre_sala, f"{nombre_cliente} {apellido_cliente}", nombre_evento, turno])
+                filas_tabla.append([nombre_sala, f"{nombre_cliente} {apellido_cliente}", nombre_evento, turno])
                    
             headers = ["SALA","CLIENTE","EVENTO","TURNO"]
 
@@ -300,4 +300,4 @@ while True:
             print("*" * 70)
 
             continue
-               
+        
