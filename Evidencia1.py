@@ -181,4 +181,123 @@ while True:
                 except ValueError:
                     print("Favor de digitar un numero valido\n")
                     continue
+
+        case 2:
+            print("\nEditar nombre del evento")
+            while True:
+                fecha_inicio = input("Ingrese desde que fecha consultar los eventos (dd/mm/aaaa): ")
+                try:
+                    fecha_inicio = dt.datetime.strptime(fecha_inicio, "%d/%m/%Y").date()
+                    break
+                except ValueError:
+                    print("Favor de digitar una fecha valida\n")
+                    continue
+
+            while True:
+                fecha_fin = input("Ingrese hasta que fecha consultar los eventos (dd/mm/aaaa): ")
+                try:
+                    fecha_fin = dt.datetime.strptime(fecha_fin, "%d/%m/%Y").date()
+                    if fecha_fin < fecha_inicio:
+                        print("La fecha final no puede menor a la fecha inicial\n")
+                        continue
+                    break
+                except ValueError:
+                    print("Favor de digitar una fecha valida\n")
+                    continue
+
+            eventos_df = pd.DataFrame(eventos)
+            eventos_df.index = folios_eventos
+            eventos_df.index.name = "Folio"
+            
+            eventos_df["fecha_dt"] = pd.to_datetime(eventos_df["fecha"], format="%d/%m/%Y").dt.date
+            
+            filtro_rango_fechas = (eventos_df["fecha_dt"] >= fecha_inicio) & (eventos_df["fecha_dt"] <= fecha_fin)
+            eventos_en_rango = eventos_df[filtro_rango_fechas].drop(columns=["fecha_dt"])
+
+            if eventos_en_rango.empty:
+                print(f"\nNo hay eventos registrados entre {fecha_inicio} y {fecha_fin}\n")
+            else:
+                print(f"\n*Eventos registrados entre {fecha_inicio} y {fecha_fin}*")
+                print(eventos_en_rango)
+                print("*"*30)
+
+            while True:
+                salida = input("Escriba X si quiere regresar al menu principal: ")
+                if salida.upper() == "X":
+                    break
+                try:
+                    folio_evento_elegido = int(input("Ingrese el folio del evento a editar: "))
+                    if folio_evento_elegido not in folios_eventos:
+                        print("El folio del evento no existe\n")
+                        print(eventos_en_rango)
+                        continue
+                    else:
+                        nuevo_nombre_evento = input("Ingrese el nuevo nombre del evento: ")
+                        if not nuevo_nombre_evento:
+                            print("El nombre del evento no puede estar vacio\n")
+                            continue
+                        if nuevo_nombre_evento.isspace():
+                                print("El nombre del evento no puede consistir solo en espacios en blanco\n")
+                                continue
+                        
+                        indice_evento = folios_eventos.index(folio_evento_elegido)
+                        eventos["evento"][indice_evento] = nuevo_nombre_evento.upper()
+                        print("Nombre del evento editado con exito")
+                        break
+                except ValueError:
+                    print("Favor de digitar un numero valido\n")
+                    continue
+                
+        case 3:
+            while True:
+                    fecha_consulta = input("Ingrese la fecha a consultar (dd/mm/aaaa): ")
+                    try:
+                        fecha_consulta_dt = dt.datetime.strptime(fecha_consulta, "%d/%m/%Y").date()
+                        break
+                    except ValueError:
+                        print("Favor de digitar una fecha valida\n")
+                    continue
+    
+            eventos_df = pd.DataFrame(eventos)
+            eventos_df.index = folios_eventos
+            eventos_df.index.name = "Folio"
+
+            filtro_fecha_consulta = eventos_df["fecha"] == fecha_consulta
+
+            if eventos_df[filtro_fecha_consulta].empty:
+                    print(f"\nNo hay eventos registrados para la fecha {fecha_consulta}\n")
+            else:
+                    print(f"\n*Eventos registrados para el {fecha_consulta}*")
         
+            df_clientes = pd.DataFrame(clientes)
+            df_clientes.index = claves_clientes
+            df_clientes.index.name = "CLIENTES"
+        
+            filas_tabla = []
+
+            for folio, evento_data in eventos_df[filtro_fecha_consulta].iterrows():
+                        sala_id = evento_data["sala"]
+                        cliente_id = evento_data["cliente"]
+                        nombre_evento = evento_data["evento"]
+                        turno = evento_data["turno"]
+
+                        nombre_sala = salas[sala_id][0]
+                        nombre_cliente = df_clientes.loc[cliente_id, "nombres"]
+                        apellido_cliente = df_clientes.loc[cliente_id, "apellidos"]
+
+                        filas_tabla.append([nombre_sala, f"{nombre_cliente} {apellido_cliente}", nombre_evento, turno])
+                   
+            headers = ["SALA","CLIENTE","EVENTO","TURNO"]
+
+            tabla = tabulate(filas_tabla, headers, tablefmt="plain")
+
+            print("*" * 70)
+            print(f"\tREPORTE DE RESERVACIONES PARA EL DÍA {fecha_consulta}\t**")
+            print("*" * 70)
+            print(tabla)
+            print("*" * 70)
+            print("\t\t\tFIN DEL REPORTE\t\t\t**")    
+            print("*" * 70)
+
+            continue
+               
