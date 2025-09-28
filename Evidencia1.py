@@ -336,4 +336,5 @@ while True:
             contador_clientes += 1
             print("Cliente registrado con exito")
             print(clientes)
+          
         
