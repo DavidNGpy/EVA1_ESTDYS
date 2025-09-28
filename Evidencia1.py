@@ -300,4 +300,40 @@ while True:
             print("*" * 70)
 
             continue
+        case 4:
+            print("\nRegristo de la cliente")
+            while True:
+                nombre = input("Ingrese el nombre del cliente: ")
+                if not nombre:
+                    print("El nombre no puede estar vacio\n") 
+                    continue
+                elif nombre.isdigit():
+                    print("El nombre no puede ser un numero\n")
+                    continue
+                
+                apellido = input("Ingrese el apellido del cliente: ")
+                if not apellido:
+                    print("El apellido no puede estar vacio\n") 
+                    continue
+                elif apellido.isdigit():
+                    print("El apellido no puede ser un numero\n")
+                    continue
+
+                validacion = False
+                for i in range(len(clientes["nombres"])):
+                    if clientes["nombres"][i].lower() == nombre.lower() and clientes["apellidos"][i].lower() == apellido.lower():
+                        validacion = True
+                        break
+                
+                if validacion:
+                    print("Ese cliente ya esta registrado\n")
+                    continue
+                break
+
+            claves_clientes.append(contador_clientes)
+            clientes["nombres"].append(nombre.upper())
+            clientes["apellidos"].append(apellido.upper())
+            contador_clientes += 1
+            print("Cliente registrado con exito")
+            print(clientes)
         
