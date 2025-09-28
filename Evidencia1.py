@@ -300,6 +300,7 @@ while True:
             print("*" * 70)
 
             continue
+
         case 4:
             print("\nRegristo de la cliente")
             while True:
@@ -308,7 +309,7 @@ while True:
                     print("El nombre no puede estar vacio\n") 
                     continue
                 elif nombre.isdigit():
-                    print("El nombre no puede ser un numero\n")
+                    print("El nombre no puede ser un numero\n")    
                     continue
                 
                 apellido = input("Ingrese el apellido del cliente: ")
@@ -337,4 +338,47 @@ while True:
             print("Cliente registrado con exito")
             print(clientes)
           
+        case 5:
+            print("\nRegristo de la sala")
+            while True:
+                nombre_sala = input("Ingrese el nombre de la sala: ")
+                if not nombre_sala:
+                    print("El nombre de la sala no puede estar vacio\n") 
+                    continue
+                if nombre_sala.isdigit():
+                    print("El nombre de la sala no puede ser un numero\n")
+                    continue
+                
+                validacion = False
+                for sala in salas.values():
+                    if sala[0] == nombre_sala.upper():
+                        validacion = True
+                        break
+                
+                if validacion:
+                    print("El nombre de la sala ya existe\n")
+                    continue
+                break
+                
+            while True:    
+                capacidad = input("Ingrese la capacidad de la sala: ")
+                try:
+                    salas[contador_salas] = [nombre_sala.upper(), int(capacidad)]
+                    contador_salas += 1
+                    print("Sala registrada con exito")
+                    print(salas)
+                    break
+                    
+                except ValueError:
+                    print("Favor de digitar un numero valido\n")
+                    continue
         
+        case 6:
+            print("*"*51)
+            print("Gracias por usar el sistema de reservacion, vuelva pronto")
+            print("*"*51)
+            break
+        
+        case _:
+            print("\nOpcion no valida, favor de intentarlo de nuevo")
+            continue        
