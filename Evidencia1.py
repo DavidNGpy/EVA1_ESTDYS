@@ -69,7 +69,6 @@ while True:
                             try:
                                 fecha_evento = dt.datetime.strptime(fecha_elegida, "%d/%m/%Y").date()
                                 
-                                
                             except ValueError:
                                 print("Favor de digitar una fecha valida\n")
                                 continue
@@ -298,7 +297,6 @@ while True:
             print("*" * 70)
             print("\t\t\tFIN DEL REPORTE\t\t\t**")    
             print("*" * 70)
-
             continue
 
         case 4:
@@ -311,6 +309,9 @@ while True:
                 elif nombre.isdigit():
                     print("El nombre no puede ser un numero\n")    
                     continue
+                if nombre.isspace():
+                    print("El nombre no puede consistir solo en espacios en blanco\n")
+                    continue
                 
                 apellido = input("Ingrese el apellido del cliente: ")
                 if not apellido:
@@ -318,6 +319,9 @@ while True:
                     continue
                 elif apellido.isdigit():
                     print("El apellido no puede ser un numero\n")
+                    continue
+                if apellido.isspace():
+                    print("El apellido no puede consistir solo en espacios en blanco\n")
                     continue
 
                 validacion = False
@@ -336,7 +340,6 @@ while True:
             clientes["apellidos"].append(apellido.upper())
             contador_clientes += 1
             print("Cliente registrado con exito")
-            print(clientes)
           
         case 5:
             print("\nRegristo de la sala")
@@ -347,6 +350,9 @@ while True:
                     continue
                 if nombre_sala.isdigit():
                     print("El nombre de la sala no puede ser un numero\n")
+                    continue
+                if nombre.isspace():
+                    print("El nombre de la sala no puede consistir solo en espacios en blanco\n")
                     continue
                 
                 validacion = False
@@ -366,7 +372,6 @@ while True:
                     salas[contador_salas] = [nombre_sala.upper(), int(capacidad)]
                     contador_salas += 1
                     print("Sala registrada con exito")
-                    print(salas)
                     break
                     
                 except ValueError:
