@@ -297,7 +297,8 @@ while True:
             print("*" * 70)
             print("\t\t\tFIN DEL REPORTE\t\t\t**")    
             print("*" * 70)
-            continue
+            
+            #while True:
 
         case 4:
             print("\nRegristo de la cliente")
